@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tirupati Nearby - Discover trusted doctors, pharmacies, satvik food, mechanics, auto taxis, and emergency services in Tirupati, Andhra Pradesh.">
+  <meta name="theme-color" content="#0B1220">
+  <title>Tirupati Nearby — Trusted Local Services at Your Fingertips</title>
+
+  <!-- Preconnect Google Fonts for High-Performance Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- SKIP TO CONTENT FOR KEYBOARD ACCESSIBILITY -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- TOP STATUS / BANNER (Subtle pilgrim alert / notice) -->
+  <div class="top-announcement" role="region" aria-label="City update notice">
+    <div class="container announcement-inner">
+      <span class="pulse-indicator" aria-hidden="true"></span>
+      <span class="announcement-text"><strong>Tirupati Live:</strong> Alipiri & Sri Govindaraja Footpaths open. Local city transit running on regular schedule.</span>
+      <button class="announcement-close" id="announcementClose" aria-label="Dismiss notice">&times;</button>
+    </div>
+  </div>
+
+  <!-- STICKY TOP HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-container">
+      <!-- Logo & Brand -->
+      <a href="#" class="brand-link" aria-label="Tirupati Nearby Home">
+        <div class="brand-icon-wrapper" aria-hidden="true">
+          <!-- Stylized Tirupati Temple Gopuram + Radar Wave SVG -->
+          <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#121D33"/>
+            <path d="M16 4L22 11H10L16 4Z" fill="#F59E0B"/>
+            <path d="M9 11H23V16H9V11Z" fill="#FCD34D"/>
+            <path d="M7 16H25V24H7V16Z" fill="#F59E0B"/>
+            <path d="M13 24V19H19V24H13Z" fill="#0B1220"/>
+            <circle cx="16" cy="14" r="1.5" fill="#0B1220"/>
+            <path d="M5 28H27" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="26" cy="7" r="3" fill="#10B981"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Tirupati<span class="brand-accent">Nearby</span></span>
+          <span class="brand-sub">Community Directory</span>
+        </div>
+      </a>
+
+      <!-- Location Chip Dropdown / Selector -->
+      <div class="location-chip-wrapper">
+        <button class="location-chip" id="locationDropdownBtn" aria-expanded="false" aria-haspopup="true" title="Change Tirupati Area">
+          <svg class="icon-pin" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+          </svg>
+          <span class="location-name" id="currentLocationLabel">Tirupati, AP</span>
+          <svg class="icon-chevron" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+
+        <!-- Area Selection Popover Menu -->
+        <div class="location-popover" id="locationPopover" role="menu" hidden>
+          <div class="popover-header">
+            <h4>Select Your Area in Tirupati</h4>
+            <button class="popover-close-btn" id="closeLocPopover" aria-label="Close menu">&times;</button>
+          </div>
+          <ul class="area-list" role="none">
+            <li><button class="area-item active" data-area="Tirupati Central, AP" data-lat="13.6288" data-lng="79.4192">📍 Central Tirupati (RTC Bus Stand / Station)</button></li>
+            <li><button class="area-item" data-area="Alipiri Foot, Tirupati" data-lat="13.6548" data-lng="79.3995">⛰️ Alipiri (Tirumala Foot / Bypass)</button></li>
+            <li><button class="area-item" data-area="SVIMS & Ruia Hospital Zone" data-lat="13.6375" data-lng="79.4068">🏥 SVIMS / Ruia / University Area</button></li>
+            <li><button class="area-item" data-area="Bhavani Nagar & Leela Mahal" data-lat="13.6331" data-lng="79.4280">🏢 Bhavani Nagar / Leela Mahal Circle</button></li>
+            <li><button class="area-item" data-area="Chandragiri Road, Tirupati" data-lat="13.6012" data-lng="79.3175">🏰 Chandragiri Road & Suburbs</button></li>
+            <li><button class="area-item" data-area="Renigunta / Airport Road" data-lat="13.6492" data-lng="79.5100">✈️ Renigunta Junction & Airport Rd</button></li>
+          </ul>
+          <div class="popover-footer">
+            <button class="btn-geo-detect" id="popoverGpsBtn">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              Auto-detect Exact GPS
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Icons: Saved, Notifications, Mobile Nav Toggle -->
+      <div class="header-actions">
+        <!-- Saved / Favorites Button -->
+        <button class="header-btn" id="headerSavedBtn" aria-label="Saved Bookmarks" title="Saved Places">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="badge" id="savedCountBadge">0</span>
+        </button>
+
+        <!-- Notification Icon with Popover -->
+        <div class="notification-wrapper">
+          <button class="header-btn" id="notifBtn" aria-label="Notifications" aria-expanded="false" title="Updates and Alerts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="badge badge-pulse">2</span>
+          </button>
+          
+          <div class="notification-dropdown" id="notifDropdown" hidden>
+            <div class="notif-header">
+              <h3>Tirupati Updates</h3>
+              <span class="tag-status">Live</span>
+            </div>
+            <ul class="notif-list">
+              <li class="notif-item unread">
+                <span class="notif-icon">🛺</span>
+                <div class="notif-content">
+                  <p class="notif-text"><strong>Fixed Fare Auto Booths</strong> operational 24/7 at Tirupati Central Railway Station.</p>
+                  <span class="notif-time">10 mins ago</span>
+                </div>
+              </li>
+              <li class="notif-item unread">
+                <span class="notif-icon">🏥</span>
+                <div class="notif-content">
+                  <p class="notif-text"><strong>SVIMS & Ruia Emergency:</strong> Dedicated 24/7 Pilgrim trauma line active (0877-2287777).</p>
+                  <span class="notif-time">1 hr ago</span>
+                </div>
+              </li>
+              <li class="notif-item">
+                <span class="notif-icon">🌧️</span>
+                <div class="notif-content">
+                  <p class="notif-text">Clear pleasant weather in Tirupati (27°C). Ghat road visibility excellent.</p>
+                  <span class="notif-time">3 hrs ago</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Mobile Drawer Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE SLIDE-OUT DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="brand-text">
+        <span class="brand-title">Tirupati<span class="brand-accent">Nearby</span></span>
+        <span class="brand-sub">Local Services Directory</span>
+      </div>
+      <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="drawer-nav">
+      <ul class="drawer-links">
+        <li><a href="#heroSection" class="drawer-link active">🏠 Home</a></li>
+        <li><a href="#categoriesSection" class="drawer-link">📂 Browse Categories</a></li>
+        <li><a href="#popularSection" class="drawer-link">⭐ Popular Near You</a></li>
+        <li><a href="#exploreTirupatiSection" class="drawer-link">🛕 Explore Tirupati</a></li>
+        <li><a href="#trustSection" class="drawer-link">🛡️ Trust & Verification</a></li>
+        <li><a href="#emergencyStrip" class="drawer-link">🚨 Emergency Helplines</a></li>
+      </ul>
+      <div class="drawer-section-title">Emergency Contacts (24/7)</div>
+      <div class="drawer-emergency-pills">
+        <a href="tel:108" class="emergency-pill"><span class="pill-badge red">108</span> Ambulance</a>
+        <a href="tel:100" class="emergency-pill"><span class="pill-badge blue">100</span> Police</a>
+        <a href="tel:08772287777" class="emergency-pill"><span class="pill-badge gold">SVIMS</span> Emergency</a>
+        <a href="tel:155257" class="emergency-pill"><span class="pill-badge green">TTD</span> Pilgrim Help</a>
+      </div>
+    </nav>
+    <div class="drawer-footer">
+      <p class="drawer-meta">Built for residents, pilgrims & students of Tirupati.</p>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <main id="main-content">
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section" id="heroSection">
+      <div class="hero-bg-accent" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <!-- Hero Content Column -->
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <span class="badge-sparkle">✦</span>
+            <span>Tirupati & Tirumala Foothills Trusted Directory</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Everything nearby. <br>
+            <span class="gradient-text">Right when you need it.</span>
+          </h1>
+          
+          <p class="hero-subtitle">
+            Instantly discover verified clinics, pure vegetarian dining, reliable auto-taxis, mechanics, and pilgrim essentials near your current location in Tirupati.
+          </p>
+
+          <!-- Real-Time Search Bar -->
+          <div class="hero-search-container" role="search">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" width="20" height="20" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+              </svg>
+              <input 
+                type="search" 
+                id="mainSearchInput" 
+                class="main-search-input" 
+                placeholder="Search doctors, satvik food, mechanics, temples..."
+                aria-label="Search local services by name, category, or location"
+                autocomplete="off"
+              >
+              <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search query" hidden>&times;</button>
+            </div>
+            
+            <div class="hero-actions-row">
+              <button class="btn-primary" id="heroExploreBtn">
+                <span>Explore Nearby</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              
+              <button class="btn-secondary" id="useLocationBtn" aria-live="polite">
+                <span class="btn-gps-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                  </svg>
+                </span>
+                <span id="locBtnText">Use my location</span>
+              </button>
+            </div>
+
+            <!-- Suggested Quick Search Tags -->
+            <div class="search-quick-tags" aria-label="Quick search suggestions">
+              <span class="tags-label">Trending:</span>
+              <button class="tag-chip" data-search="SVIMS Hospital">SVIMS Hospital</button>
+              <button class="tag-chip" data-search="Satvik Meals">Satvik Meals</button>
+              <button class="tag-chip" data-search="Alipiri Auto">Alipiri Auto</button>
+              <button class="tag-chip" data-search="24/7 Pharmacy">24/7 Pharmacy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Refined Abstract Map & Radar Visual (Pure CSS / Inline SVG) -->
+        <div class="hero-visual-card" aria-hidden="true">
+          <div class="radar-hud">
+            <div class="hud-top-bar">
+              <span class="hud-live-badge"><span class="dot-green"></span> TIRUPATI RADAR</span>
+              <span class="hud-coords" id="radarCoordsDisplay">13.6288° N, 79.4192° E</span>
+            </div>
+
+            <!-- Radar Compass & Sweeper -->
+            <div class="radar-scope">
+              <div class="radar-ring ring-1"></div>
+              <div class="radar-ring ring-2"></div>
+              <div class="radar-ring ring-3"></div>
+              <div class="radar-crosshair cross-h"></div>
+              <div class="radar-crosshair cross-v"></div>
+              <div class="radar-sweep"></div>
+              
+              <!-- Center Radar Beacon (Current User / Selected Landmark) -->
+              <div class="radar-center-beacon" title="Your Reference Point">
+                <span class="beacon-pulse"></span>
+                <span class="beacon-dot"></span>
+              </div>
+
+              <!-- Interactive Landmarks & Service Pins -->
+              <button class="radar-pin pin-tirumala" data-filter="Temples & Pooja Services" title="Tirumala Hills & Ghats">
+                <span class="pin-halo"></span>
+                <span class="pin-symbol">🛕</span>
+                <span class="pin-tooltip">Tirumala / Alipiri</span>
+              </button>
+
+              <button class="radar-pin pin-hospital" data-filter="Hospitals & Clinics" title="SVIMS Super Specialty">
+                <span class="pin-halo"></span>
+                <span class="pin-symbol">🏥</span>
+                <span class="pin-tooltip">SVIMS & Ruia</span>
+              </button>
+
+              <button class="radar-pin pin-transit" data-filter="Auto & Taxi" title="Tirupati Central RTC & Station">
+                <span class="pin-halo"></span>
+                <span class="pin-symbol">🛺</span>
+                <span class="pin-tooltip">RTC Bus Station</span>
+              </button>
+
+              <button class="radar-pin pin-food" data-filter="Food & Restaurants" title="Bhavani Nagar Dining">
+                <span class="pin-halo"></span>
+                <span class="pin-symbol">🍲</span>
+                <span class="pin-tooltip">Satvik Dining</span>
+              </button>
+
+              <button class="radar-pin pin-mechanic" data-filter="Mechanics" title="By-pass Road 24/7 Garage">
+                <span class="pin-halo"></span>
+                <span class="pin-symbol">🔧</span>
+                <span class="pin-tooltip">By-pass Garages</span>
+              </button>
+            </div>
+
+            <!-- Radar Live Stats Footer -->
+            <div class="hud-footer">
+              <div class="hud-stat">
+                <span class="stat-num">500+</span>
+                <span class="stat-lbl">Active Providers</span>
+              </div>
+              <div class="hud-divider"></div>
+              <div class="hud-stat">
+                <span class="stat-num">&lt; 15 min</span>
+                <span class="stat-lbl">Avg Response</span>
+              </div>
+              <div class="hud-divider"></div>
+              <div class="hud-stat">
+                <span class="stat-num">100%</span>
+                <span class="stat-lbl">Community Vetted</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. QUICK CATEGORY GRID (10 Categories) -->
+    <section class="section categories-section" id="categoriesSection" aria-labelledby="catHeading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">Explore by Need</span>
+            <h2 class="section-title" id="catHeading">Essential Local Categories</h2>
+          </div>
+          <p class="section-desc">Tap any category to filter verified services around Tirupati</p>
+        </div>
+
+        <div class="categories-grid" id="categoriesGrid" role="tablist" aria-label="Service categories">
+          <!-- 1. Food & Restaurants -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Food & Restaurants">
+            <div class="category-icon-box food-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                <line x1="6" y1="1" x2="6" y2="4"></line>
+                <line x1="10" y1="1" x2="10" y2="4"></line>
+                <line x1="14" y1="1" x2="14" y2="4"></line>
+              </svg>
+            </div>
+            <span class="category-title">Food & Restaurants</span>
+            <span class="category-count">140+ places</span>
+          </button>
+
+          <!-- 2. Hospitals & Clinics -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Hospitals & Clinics">
+            <div class="category-icon-box hospital-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <span class="category-title">Hospitals & Clinics</span>
+            <span class="category-count">48+ centers</span>
+          </button>
+
+          <!-- 3. Pharmacies -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Pharmacies">
+            <div class="category-icon-box pharmacy-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </div>
+            <span class="category-title">Pharmacies</span>
+            <span class="category-count">85+ stores</span>
+          </button>
+
+          <!-- 4. Hotels & Stays -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Hotels & Stays">
+            <div class="category-icon-box stay-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <path d="M3 20h18"></path>
+                <path d="M5 20v-8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8"></path>
+                <path d="M9 10V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"></path>
+              </svg>
+            </div>
+            <span class="category-title">Hotels & Stays</span>
+            <span class="category-count">120+ rooms</span>
+          </button>
+
+          <!-- 5. Auto & Taxi -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Auto & Taxi">
+            <div class="category-icon-box transport-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <rect x="1" y="5" width="22" height="14" rx="3"></rect>
+                <circle cx="7" cy="19" r="2"></circle>
+                <circle cx="17" cy="19" r="2"></circle>
+                <path d="M5 10h14"></path>
+              </svg>
+            </div>
+            <span class="category-title">Auto & Taxi</span>
+            <span class="category-count">250+ drivers</span>
+          </button>
+
+          <!-- 6. Mechanics -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Mechanics">
+            <div class="category-icon-box mechanic-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+            </div>
+            <span class="category-title">Mechanics</span>
+            <span class="category-count">62+ garages</span>
+          </button>
+
+          <!-- 7. Temples & Pooja Services -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Temples & Pooja Services">
+            <div class="category-icon-box temple-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <polygon points="12 2 2 10 22 10 12 2"></polygon>
+                <path d="M4 10v10h16V10"></path>
+                <path d="M10 20v-6h4v6"></path>
+              </svg>
+            </div>
+            <span class="category-title">Temples & Pooja</span>
+            <span class="category-count">55+ shrines</span>
+          </button>
+
+          <!-- 8. Home Services -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Home Services">
+            <div class="category-icon-box home-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <span class="category-title">Home Services</span>
+            <span class="category-count">80+ experts</span>
+          </button>
+
+          <!-- 9. Shopping -->
+          <button class="category-card" role="tab" aria-selected="false" data-category="Shopping">
+            <div class="category-icon-box shop-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+            </div>
+            <span class="category-title">Shopping</span>
+            <span class="category-count">95+ markets</span>
+          </button>
+
+          <!-- 10. Emergency Help -->
+          <button class="category-card emergency-card" role="tab" aria-selected="false" data-category="Emergency Help">
+            <div class="category-icon-box emergency-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <span class="category-title">Emergency Help</span>
+            <span class="category-count">24/7 Hotlines</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. POPULAR NEAR YOU SECTION -->
+    <section class="section popular-section" id="popularSection" aria-labelledby="popHeading">
+      <div class="container">
+        <div class="popular-header-wrap">
+          <div>
+            <span class="section-eyebrow">Top Rated & Active</span>
+            <h2 class="section-title" id="popHeading">Popular Near You</h2>
+          </div>
+          <span class="sample-data-notice" title="Realistic Tirupati Directory Prototype">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+            Sample Curated Data
+          </span>
+        </div>
+
+        <!-- Filter and Sort Controls -->
+        <div class="filters-bar" role="region" aria-label="Service Filters">
+          <div class="filter-pills" role="tablist">
+            <button class="filter-pill active" data-filter="all">All Services</button>
+            <button class="filter-pill" data-filter="open">🟢 Open Now</button>
+            <button class="filter-pill" data-filter="top-rated">⭐ Top Rated (4.5+)</button>
+            <button class="filter-pill" data-filter="nearby">📍 Under 2 km</button>
+            <button class="filter-pill" data-filter="verified">🛡️ Verified Only</button>
+          </div>
+          
+          <div class="filter-meta-actions">
+            <span class="results-counter" id="resultsCounter">Showing 12 services</span>
+            <button class="btn-clear-filter" id="resetFiltersBtn" hidden>Reset Filters</button>
+          </div>
+        </div>
+
+        <!-- Horizontal scroll wrapper on mobile, grid on desktop -->
+        <div class="services-track-container">
+          <div class="services-grid" id="servicesContainer" role="region" aria-live="polite">
+            <!-- Services rendered dynamically by script.js -->
+          </div>
+        </div>
+
+        <!-- Empty Results State -->
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-icon" aria-hidden="true">🔍</div>
+          <h3 class="empty-title">No matching services found</h3>
+          <p class="empty-text">We couldn't find anything in Tirupati matching your criteria. Try adjusting your search or clearing filters.</p>
+          <button class="btn-primary" id="emptyResetBtn">View All Tirupati Services</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TRUSTED LOCAL SERVICES BANNER -->
+    <section class="section trust-section" id="trustSection">
+      <div class="container">
+        <div class="trust-banner">
+          <div class="trust-banner-glow" aria-hidden="true"></div>
+          
+          <div class="trust-content">
+            <div class="trust-badge">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="#10B981"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <span>Authentic Tirupati Assurance</span>
+            </div>
+            
+            <h2 class="trust-title">Verified providers. Clear ratings. Local support.</h2>
+            <p class="trust-sub">
+              Whether you are a devotee climbing Alipiri, a student at Sri Venkateswara University, or a local resident in MR Palli, we prioritize vetted providers who offer transparent pricing and reliable service.
+            </p>
+
+            <div class="trust-pillars">
+              <div class="pillar-item">
+                <div class="pillar-icon">✓</div>
+                <div class="pillar-text">
+                  <h4>Vetted Community Ratings</h4>
+                  <p>Real feedback from local residents and pilgrims.</p>
+                </div>
+              </div>
+              <div class="pillar-item">
+                <div class="pillar-icon">⚡</div>
+                <div class="pillar-text">
+                  <h4>Direct Contact Numbers</h4>
+                  <p>Call auto drivers, mechanics & clinics directly. No middleman cuts.</p>
+                </div>
+              </div>
+              <div class="pillar-item">
+                <div class="pillar-icon">🏛️</div>
+                <div class="pillar-text">
+                  <h4>Dedicated Pilgrim Support</h4>
+                  <p>Clear timings for footpaths, darshan counters & TTD transit.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-card-mini">
+              <div class="mini-header">
+                <span class="badge-verified-pill">🛡️ 100% Vetted</span>
+                <span class="mini-rating">★ 4.9 (1,240+)</span>
+              </div>
+              <h4>Tirupati Local Protection</h4>
+              <p>Over 1,200 emergency & essential requests assisted this month across Tirupati & Tirumala routes.</p>
+              <div class="mini-avatars">
+                <span class="avatar av-1">👨‍⚕️</span>
+                <span class="avatar av-2">🛺</span>
+                <span class="avatar av-3">🔧</span>
+                <span class="avatar-count">+480 pros</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. EXPLORE TIRUPATI SECTION (Curated Pilgrim & Resident Cards) -->
+    <section class="section explore-section" id="exploreTirupatiSection" aria-labelledby="expHeading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">Curated Guides</span>
+            <h2 class="section-title" id="expHeading">Explore Tirupati & Hill Travel</h2>
+          </div>
+          <p class="section-desc">Practical essentials for pilgrims, students, and family visitors</p>
+        </div>
+
+        <div class="explore-grid">
+          <!-- Card 1: Tirumala Travel & Ghat Road -->
+          <article class="explore-card">
+            <div class="explore-badge-top">Pilgrim Travel</div>
+            <div class="explore-icon-banner">⛰️ 🛺</div>
+            <div class="explore-body">
+              <h3>Tirumala Ghat Road & Footpaths</h3>
+              <p>Essential guidance on Alipiri Footpath (9km), Srivari Mettu (2.1km), Ghat Road vehicle timings (3 AM – 12 Midnight), and battery buses.</p>
+              <div class="explore-meta">
+                <span class="meta-tag">Alipiri Checkpost</span>
+                <span class="meta-tag">Ghat Road 1 & 2</span>
+              </div>
+              <button class="btn-explore-link" data-search="Alipiri">Find Transit & Auto Services &rarr;</button>
+            </div>
+          </article>
+
+          <!-- Card 2: Authentic Andhra & Satvik Food -->
+          <article class="explore-card">
+            <div class="explore-badge-top">Dining</div>
+            <div class="explore-icon-banner">🍲 🍌</div>
+            <div class="explore-body">
+              <h3>Satvik & Traditional Meals</h3>
+              <p>Pure vegetarian Andhra meals served on banana leaves, ghee podi dosas, TTD Annaprasadam complexes, and clean family tiffin centres.</p>
+              <div class="explore-meta">
+                <span class="meta-tag">Pure Veg</span>
+                <span class="meta-tag">No Onion-Garlic Options</span>
+              </div>
+              <button class="btn-explore-link" data-search="Satvik">Browse Vegetarian Places &rarr;</button>
+            </div>
+          </article>
+
+          <!-- Card 3: Darshan & Pilgrim Essentials -->
+          <article class="explore-card">
+            <div class="explore-badge-top">Devotional</div>
+            <div class="explore-icon-banner">🛕 🌸</div>
+            <div class="explore-body">
+              <h3>Darshan Essentials & Pooja Stores</h3>
+              <p>Dress code requirements (Traditional Dhotis/Sarees), authorized locker facilities, mobile cloak rooms, and fresh flower garland markets.</p>
+              <div class="explore-meta">
+                <span class="meta-tag">TTD Rules</span>
+                <span class="meta-tag">Cloakrooms</span>
+              </div>
+              <button class="btn-explore-link" data-search="Darshan">View Darshan Supplies &rarr;</button>
+            </div>
+          </article>
+
+          <!-- Card 4: 24/7 Medical & Emergency Care -->
+          <article class="explore-card">
+            <div class="explore-badge-top">Healthcare</div>
+            <div class="explore-icon-banner">🏥 💊</div>
+            <div class="explore-body">
+              <h3>SVIMS & Ruia Medical Centers</h3>
+              <p>Direct contact to Sri Venkateswara Institute of Medical Sciences (SVIMS), Ruia Govt General Hospital, and 24-hour trauma care units.</p>
+              <div class="explore-meta">
+                <span class="meta-tag">Trauma Care</span>
+                <span class="meta-tag">Jan Aushadhi</span>
+              </div>
+              <button class="btn-explore-link" data-search="SVIMS">Find Medical Emergency &rarr;</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK EMERGENCY STRIP -->
+    <div class="emergency-strip" id="emergencyStrip" role="region" aria-label="Quick Emergency Call Bar">
+      <div class="container emergency-strip-inner">
+        <div class="strip-left">
+          <span class="pulse-red" aria-hidden="true"></span>
+          <div>
+            <strong>Need Immediate Assistance in Tirupati?</strong>
+            <span>Toll-free 24/7 government & medical helplines</span>
+          </div>
+        </div>
+        <div class="strip-buttons">
+          <a href="tel:108" class="btn-strip red">🚨 108 Ambulance</a>
+          <a href="tel:100" class="btn-strip blue">👮 100 Police</a>
+          <a href="tel:155257" class="btn-strip gold">🛕 155257 TTD Help</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-text">
+          <span class="brand-title">Tirupati<span class="brand-accent">Nearby</span></span>
+          <span class="brand-sub">Local Discovery Portal</span>
+        </div>
+        <p class="footer-about">
+          A community-first service directory for holy Tirupati. Dedicated to helping devotees, residents, students, and travelers find verified nearby resources with ease.
+        </p>
+        <p class="footer-disclaimer">
+          <em>Note:</em> Listings are curated community entries for demonstration and informational discovery. In critical emergencies, please dial 108 or 100 immediately.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Popular Categories</h4>
+        <ul class="footer-links">
+          <li><button class="footer-link-btn" data-category="Hospitals & Clinics">Hospitals & Clinics</button></li>
+          <li><button class="footer-link-btn" data-category="Food & Restaurants">Satvik Food & Tiffins</button></li>
+          <li><button class="footer-link-btn" data-category="Auto & Taxi">Tirumala Ghat Auto/Taxi</button></li>
+          <li><button class="footer-link-btn" data-category="Mechanics">24/7 Mechanics & Towing</button></li>
+          <li><button class="footer-link-btn" data-category="Pharmacies">24h Pharmacies</button></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Key Tirupati Hubs</h4>
+        <ul class="footer-links">
+          <li><span class="hub-pill">Alipiri Checkpost</span></li>
+          <li><span class="hub-pill">Tirupati Central Railway Station</span></li>
+          <li><span class="hub-pill">RTC Central Bus Stand</span></li>
+          <li><span class="hub-pill">SVIMS Hospital Campus</span></li>
+          <li><span class="hub-pill">Sri Venkateswara University</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 Tirupati Nearby. Crafted with devotion & modern web standards.</p>
+        <div class="footer-bottom-badges">
+          <span class="badge-secure">🛡️ Verified Platform</span>
+          <span class="badge-secure">⚡ Zero API Dependency</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 7. BOTTOM NAVIGATION FOR MOBILE -->
+  <nav class="bottom-nav" aria-label="Mobile primary navigation">
+    <a href="#heroSection" class="bottom-nav-item active" id="navHome">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      <span>Home</span>
+    </a>
+
+    <a href="#categoriesSection" class="bottom-nav-item" id="navExplore">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+      </svg>
+      <span>Explore</span>
+    </a>
+
+    <button class="bottom-nav-item" id="navRadar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="12" r="6"></circle>
+        <circle cx="12" cy="12" r="2"></circle>
+      </svg>
+      <span>Radar</span>
+    </button>
+
+    <button class="bottom-nav-item" id="navSaved">
+      <div class="nav-icon-badge-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22" aria-hidden="true">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="nav-badge" id="bottomSavedBadge">0</span>
+      </div>
+      <span>Saved</span>
+    </button>
+
+    <button class="bottom-nav-item" id="navEmergency">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+      <span>Helpline</span>
+    </button>
+  </nav>
+
+  <!-- SERVICE DETAIL MODAL (Accessible Dialog) -->
+  <div class="modal-overlay" id="detailModalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalServiceTitle" hidden>
+    <div class="modal-card" id="detailModalCard">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close detail modal">&times;</button>
+      
+      <div class="modal-hero-visual" id="modalHeroVisual">
+        <div class="modal-visual-gradient"></div>
+        <span class="modal-category-badge" id="modalCategoryBadge">Hospital</span>
+        <span class="modal-status-badge" id="modalStatusBadge">Open Now</span>
+      </div>
+
+      <div class="modal-content">
+        <div class="modal-header-info">
+          <h3 class="modal-title" id="modalServiceTitle">Service Name</h3>
+          <div class="modal-rating-row">
+            <span class="modal-rating-stars" id="modalRatingStars">★★★★★</span>
+            <span class="modal-rating-val" id="modalRatingVal">4.8</span>
+            <span class="modal-reviews-count" id="modalReviewsCount">(1,240 reviews)</span>
+            <span class="modal-distance-tag" id="modalDistanceTag">📍 0.8 km away</span>
+          </div>
+        </div>
+
+        <p class="modal-description" id="modalDescription">Detailed service information...</p>
+
+        <!-- Details Grid -->
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <span class="meta-icon">📍</span>
+            <div>
+              <span class="meta-label">Address / Landmark</span>
+              <p class="meta-val" id="modalAddress">Near Alipiri Toll Gate, Tirupati</p>
+            </div>
+          </div>
+
+          <div class="modal-meta-item">
+            <span class="meta-icon">🕒</span>
+            <div>
+              <span class="meta-label">Operating Hours</span>
+              <p class="meta-val" id="modalHours">Open 24 Hours</p>
+            </div>
+          </div>
+
+          <div class="modal-meta-item">
+            <span class="meta-icon">📞</span>
+            <div>
+              <span class="meta-label">Contact Number</span>
+              <p class="meta-val" id="modalPhone">+91 877 228 7777</p>
+            </div>
+          </div>
+
+          <div class="modal-meta-item">
+            <span class="meta-icon">✨</span>
+            <div>
+              <span class="meta-label">Highlights</span>
+              <div class="modal-tags" id="modalTags">
+                <!-- tags injected here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-actions">
+          <a href="#" class="btn-modal-call" id="modalCallBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 0 0-9-9v2a7 7 0 0 1 7 7z"/></svg>
+            <span>Call Directly</span>
+          </a>
+
+          <a href="#" target="_blank" rel="noopener" class="btn-modal-directions" id="modalDirectionsBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            <span>Get Directions</span>
+          </a>
+
+          <button class="btn-modal-save" id="modalSaveToggleBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span id="modalSaveText">Bookmark</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVED SERVICES DRAWER -->
+  <div class="saved-drawer-overlay" id="savedDrawerOverlay" hidden>
+    <div class="saved-drawer" id="savedDrawer">
+      <div class="saved-drawer-header">
+        <div class="saved-header-left">
+          <h3>Saved Services</h3>
+          <span class="badge" id="savedHeaderBadge">0 saved</span>
+        </div>
+        <button class="btn-icon-close" id="closeSavedDrawer" aria-label="Close saved services">&times;</button>
+      </div>
+
+      <div class="saved-list" id="savedListContainer">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="saved-drawer-footer" id="savedDrawerFooter">
+        <button class="btn-clear-saved" id="clearAllSavedBtn">Clear All Saved</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION POPUP -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
